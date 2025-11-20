@@ -1,8 +1,8 @@
-# QENV
+# QENVY
 
 ## 1. Purpose
 
-**QENV** gives Python developers a single, consistent place to store
+**QENVY** gives Python developers a single, consistent place to store
 everything that currently clutters individual repositories --- `.env`
 files, build artifacts, temporary state, caches, and other per-developer
 runtime data.
@@ -12,7 +12,7 @@ layer**: a unified workspace that lives outside your repos and follows
 the cross-platform directory rules of the **XDG Base Directory
 Specification**.
 
-## 2. What QENV Provides
+## 2. What QENVY Provides
 
 1. A stable, cross-platform filesystem layout for your Python
    development tools
@@ -26,12 +26,12 @@ Specification**.
 6. A clean separation between version-controlled code and per-developer
    environment data
 
-QENV replaces "every project has its own dotfiles" with one coherent,
+QENVY replaces "every project has its own dotfiles" with one coherent,
 portable environment.
 
 ## 3. Directory Structure
 
-QENV exposes a central set of paths based on `platformdirs`. Everything
+QENVY exposes a central set of paths based on `platformdirs`. Everything
 lives under the appropriate user-level directory:
 
 - **Config**: long-lived user settings
@@ -47,9 +47,9 @@ These directories are available via a single `EnvPaths` object.
 ### 4.1 Load the Environment
 
 ```python
-from qenv import EnvPaths, EnvConfig
+from qenvy import EnvPaths, EnvConfig
 
-paths = EnvPaths("qenv")
+paths = EnvPaths("qenvy")
 
 cfg = EnvConfig(
     paths=paths,
@@ -69,7 +69,7 @@ paths.runtime_dir     # sockets, locks
 
 ## 5. Shared Tools, Shared Workspace
 
-QENV is designed for Python developers working across multiple
+QENVY is designed for Python developers working across multiple
 repositories. Instead of each repo maintaining its own scattered
 environment:
 
@@ -85,13 +85,13 @@ Your development environment becomes consistent everywhere.
 - **Profiles**: override `config.toml` with `config.<profile>.toml`
 - **Schema validation**: plug in models (e.g., `pydantic`)
 - **Version migrations**: evolve your config over time
-- **Immutable results**: QENV returns an environment snapshot
+- **Immutable results**: QENVY returns an environment snapshot
 
-These features stay lightweight and optional; QENV remains a thin layer.
+These features stay lightweight and optional; QENVY remains a thin layer.
 
 ## 7. Philosophy
 
-QENV is a quiet piece of infrastructure:
+QENVY is a quiet piece of infrastructure:
 
 - predictable
 - unobtrusive

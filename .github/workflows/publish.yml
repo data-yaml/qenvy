@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/p/qenv
+      url: https://pypi.org/p/qenvy
 
     steps:
       - name: Download distributions
@@ -63,7 +63,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: testpypi
-      url: https://test.pypi.org/p/qenv
+      url: https://test.pypi.org/p/qenvy
 
     steps:
       - name: Download distributions
