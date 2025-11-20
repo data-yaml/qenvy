@@ -1,11 +1,11 @@
 [project]
-name = "qen"
-version = "0.1.1"
-description = "A tiny, extensible tool for organizing multi-repository development work"
+name = "qenv"
+version = "0.1.0"
+description = "A unified Python developer environment layer following XDG Base Directory Specification"
 readme = "README.md"
 requires-python = ">=3.12"
 license = {text = "MIT"}
-keywords = ["multi-repo", "workflow", "development", "monorepo", "git"]
+keywords = ["environment", "config", "xdg", "development", "platformdirs", "developer-tools"]
 authors = [
     {name = "Ernest Prabhakar", email = "ernest@quilt.bio"}
 ]
@@ -15,24 +15,25 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.12",
-    "Topic :: Software Development :: Version Control :: Git",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Installation/Setup",
 ]
 dependencies = [
-    "pyyaml>=6.0",
-    "click>=8.1.0",
+    "platformdirs>=4.0.0",
+    "tomli>=2.0.0; python_version < '3.11'",
 ]
 
 [project.urls]
-Homepage = "https://github.com/data-yaml/qen"
-Repository = "https://github.com/data-yaml/qen"
-Issues = "https://github.com/data-yaml/qen/issues"
+Homepage = "https://github.com/data-yaml/qenv"
+Repository = "https://github.com/data-yaml/qenv"
+Issues = "https://github.com/data-yaml/qenv/issues"
 
 [project.scripts]
-qen = "qen.cli:main"
+qenv = "qenv.cli:main"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/qen"]
+packages = ["src/qenv"]

@@ -1,87 +1,102 @@
-# QEN: A Developer Nest for Multi-Repo Innovation
+# QENV
 
-**QEN** (“קֵן”, *nest* in [Biblical Hebrew](https://biblehub.com/hebrew/7064.htm)) is a tiny, extensible tool for organizing multi-repository development work.  
-A “qen” is a lightweight context—a safe, structured “nest”—where complex feature development can incubate across multiple repos.
+## 1. Purpose
 
-QEN does not replace your workflow.  
-It simply gathers the pieces into one coherent workspace.
+**QENV** gives Python developers a single, consistent place to store
+everything that currently clutters individual repositories --- `.env`
+files, build artifacts, temporary state, caches, and other per-developer
+runtime data.
 
-## 1. Installation
+It is *not* an application framework. It is a **developer environment
+layer**: a unified workspace that lives outside your repos and follows
+the cross-platform directory rules of the **XDG Base Directory
+Specification**.
 
-```bash
-uv tool install qen
+## 2. What QENV Provides
+
+1. A stable, cross-platform filesystem layout for your Python
+   development tools
+2. A single `config.toml` for settings that would otherwise be
+   replicated per repo
+3. Dedicated locations for shared cache, data, state, logs, and runtime
+   artifacts
+4. A structured, typed configuration loader (optional)
+5. A predictable home for multi-repo tooling that previously relied on
+   scattered `.env` files
+6. A clean separation between version-controlled code and per-developer
+   environment data
+
+QENV replaces "every project has its own dotfiles" with one coherent,
+portable environment.
+
+## 3. Directory Structure
+
+QENV exposes a central set of paths based on `platformdirs`. Everything
+lives under the appropriate user-level directory:
+
+- **Config**: long-lived user settings
+- **Data**: shared persistent files used by tools
+- **Cache**: temporary or regenerable build artifacts
+- **State**: mutable history, logs, or working metadata
+- **Runtime**: sockets, lock files, ephemeral process state
+
+These directories are available via a single `EnvPaths` object.
+
+## 4. Basic Usage
+
+### 4.1 Load the Environment
+
+```python
+from qenv import EnvPaths, EnvConfig
+
+paths = EnvPaths("qenv")
+
+cfg = EnvConfig(
+    paths=paths,
+    defaults={"version": 1},
+).load()
 ```
 
-Or run without installing:
+### 4.2 Access Common Locations
 
-```bash
-uvx qen init
+```python
+paths.config_dir      # config.toml, user settings
+paths.cache_dir       # shared build or dist artifacts
+paths.data_dir        # small databases, indexes, etc.
+paths.state_dir       # logs, history
+paths.runtime_dir     # sockets, locks
 ```
 
-## 2. Quick Start
+## 5. Shared Tools, Shared Workspace
 
-### Create a new context
+QENV is designed for Python developers working across multiple
+repositories. Instead of each repo maintaining its own scattered
+environment:
 
-```bash
-qen init
-```
+- A single `config.toml` stores user preferences
+- Build and dist products accumulate cleanly in your cache directory
+- Tools can interoperate through shared data or state
+- Repositories stay uncluttered and version-control-friendly
 
-### Add participating repositories
+Your development environment becomes consistent everywhere.
 
-```bash
-qen add-repo org/service-a feature/auth-flow
-qen add-repo org/frontend-b feature/user-login
-```
+## 6. Optional Features
 
-### Materialize the working workspace
+- **Profiles**: override `config.toml` with `config.<profile>.toml`
+- **Schema validation**: plug in models (e.g., `pydantic`)
+- **Version migrations**: evolve your config over time
+- **Immutable results**: QENV returns an environment snapshot
 
-```bash
-qen sync
-```
+These features stay lightweight and optional; QENV remains a thin layer.
 
-QEN clones the repositories, checks out the branches, and constructs a working “nest” under `workspace/`.
+## 7. Philosophy
 
-## 3. Concept: Context as a Repo
+QENV is a quiet piece of infrastructure:
 
-A QEN context is simply a small git repository that contains:
+- predictable
+- unobtrusive
+- cross-platform
+- developer-centric
+- repository-agnostic
 
-- a minimal `manifest.yml`  
-- optional notes, prompts, or agent definitions  
-- a generated `workspace/` directory that gathers the active repos
-
-This makes multi-repo feature work:
-
-- reproducible  
-- shareable  
-- archive-able  
-- easy to resurrect  
-- safe to experiment with
-
-## 4. Minimal Example `manifest.yml`
-
-```yaml
-feature: F-1234-improved-auth-flow
-repos:
-  - name: org/service-a
-    branch: feature/auth-flow
-  - name: org/frontend-b
-    branch: feature/user-login
-status: active
-```
-
-## 5. Philosophy
-
-**QEN is intentionally small.**  
-Its job is not to tell you how to develop—it simply creates a structured nest where complex, multi-repo work can grow.
-
-Design principles:
-
-- context over configuration  
-- minimal manifests  
-- always latest (with optional checkpoints)  
-- zero global state  
-- human-readable, human-manageable repos
-
-## 6. License
-
-MIT License.
+You own your working environment, not each repo.
